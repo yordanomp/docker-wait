@@ -4,13 +4,20 @@ set -e
 
 host=$(env | grep _TCP_ADDR | cut -d = -f 2)
 port=$(env | grep _TCP_PORT | cut -d = -f 2)
-
+i=0
+timeout=5
 echo -n "waiting for TCP connection to $host:$port..."
 
 while ! nc -w 1 $host $port 2>/dev/null
 do
-  echo -n .
-  sleep 1
+  i=`expr $i + 1`
+  if [[ $i -le $timeout ]]; then
+    echo -n .
+    sleep 1
+  else
+    echo -n "TIMEOUT!"
+    exit 1
+  fi
 done
 
-echo 'ok'
+echo 'READY'
