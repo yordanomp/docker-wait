@@ -11,11 +11,11 @@ echo -n "waiting for TCP connection to $host:$port..."
 while ! nc -w 1 $host $port 2>/dev/null
 do
   i=`expr $i + 1`
-  if [[ $i -le $timeout ]]; then
+  if [ $i -le $timeout ]; then
     echo -n .
     sleep 1
   else
-    echo -n "TIMEOUT!"
+    echo "TIMEOUT!"
     exit 1
   fi
 done
